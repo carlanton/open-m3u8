@@ -196,5 +196,11 @@ public class PlaylistValidation {
                 errors.add(PlaylistError.TRACK_INFO_WITH_NEGATIVE_DURATION);
             }
         }
+
+        if (trackData.hasMapInfo()) {
+            if (trackData.getMapInfo().getUri() == null || trackData.getMapInfo().getUri().isEmpty()) {
+                errors.add(PlaylistError.MAP_INFO_WITHOUT_URI);
+            }
+        }
     }
 }

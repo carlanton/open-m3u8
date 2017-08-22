@@ -27,7 +27,8 @@ final class Constants {
     // master playlist tags
 
     public static  final String URI = "URI";
-    
+    public static final String BYTERANGE = "BYTERANGE";
+
     public static final String EXT_X_MEDIA_TAG = "EXT-X-MEDIA";
     public static  final String TYPE = "TYPE";
     public static  final String GROUP_ID = "GROUP-ID";
@@ -78,6 +79,7 @@ final class Constants {
     public static final String IV = "IV";
     public static final String KEY_FORMAT = "KEYFORMAT";
     public static final String KEY_FORMAT_VERSIONS = "KEYFORMATVERSIONS";
+    public static final String EXT_X_MAP = "EXT-X-MAP";
 
     // regular expressions
     public static final String YES = "YES";
@@ -99,7 +101,9 @@ final class Constants {
     public static final Pattern EXT_X_ENDLIST_PATTERN = Pattern.compile("^#" + EXT_X_ENDLIST_TAG + "$");
     public static final Pattern EXT_X_I_FRAMES_ONLY_PATTERN = Pattern.compile("^#" + EXT_X_I_FRAMES_ONLY_TAG);
     public static final Pattern EXT_X_DISCONTINUITY_PATTERN = Pattern.compile("^#" + EXT_X_DISCONTINUITY_TAG + "$");
-    
+
+    public static final Pattern EXT_X_BYTERANGE_VALUE_PATTERN = Pattern.compile("^(" + INTEGER_REGEX + ")(?:@(" + INTEGER_REGEX + "))?$");
+
     // other
 
     public static final int[] UTF_8_BOM_BYTES = {0xEF, 0xBB, 0xBF};

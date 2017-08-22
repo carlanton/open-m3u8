@@ -8,13 +8,15 @@ public class TrackData {
     private final EncryptionData mEncryptionData;
     private final String mProgramDateTime;
     private final boolean mHasDiscontinuity;
+    private final MapInfo mMapInfo;
 
-    private TrackData(String uri, TrackInfo trackInfo, EncryptionData encryptionData, String programDateTime, boolean hasDiscontinuity) {
+    private TrackData(String uri, TrackInfo trackInfo, EncryptionData encryptionData, String programDateTime, boolean hasDiscontinuity, MapInfo mapInfo) {
         mUri = uri;
         mTrackInfo = trackInfo;
         mEncryptionData = encryptionData;
         mProgramDateTime = programDateTime;
         mHasDiscontinuity = hasDiscontinuity;
+        mMapInfo = mapInfo;
     }
 
     public String getUri() {
@@ -55,6 +57,11 @@ public class TrackData {
         return mEncryptionData;
     }
 
+
+    public boolean hasMapInfo() {
+        return mMapInfo != null;
+    }
+
     public Builder buildUpon() {
         return new Builder(getUri(), mTrackInfo, mEncryptionData, mHasDiscontinuity);
     }
@@ -92,12 +99,17 @@ public class TrackData {
                 .toString();
     }
 
+    public MapInfo getMapInfo() {
+        return mMapInfo;
+    }
+
     public static class Builder {
         private String mUri;
         private TrackInfo mTrackInfo;
         private EncryptionData mEncryptionData;
         private String mProgramDateTime;
         private boolean mHasDiscontinuity;
+        private MapInfo mMapInfo;
 
         public Builder() {
         }
@@ -134,8 +146,13 @@ public class TrackData {
             return this;
         }
 
+        public Builder withMapInfo(MapInfo mapInfo) {
+            mMapInfo = mapInfo;
+            return this;
+        }
+
         public TrackData build() {
-            return new TrackData(mUri, mTrackInfo, mEncryptionData, mProgramDateTime, mHasDiscontinuity);
+            return new TrackData(mUri, mTrackInfo, mEncryptionData, mProgramDateTime, mHasDiscontinuity, mMapInfo);
         }
     }
 }
