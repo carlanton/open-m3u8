@@ -123,4 +123,10 @@ public enum PlaylistError {
      * MapInfo requires a URI.
      */
     MAP_INFO_WITHOUT_URI,
+
+    /**
+     * If a byte range offset is not present, a previous media segment must appear in the playlist
+     * with a sub-range of the same media resource.
+     */
+    BYTERANGE_WITH_UNDEFINED_OFFSET,
 }

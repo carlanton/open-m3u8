@@ -15,6 +15,10 @@ public class MapInfo {
         return uri;
     }
 
+    public boolean hasByteRange() {
+        return byteRange != null;
+    }
+
     public ByteRange getByteRange() {
         return byteRange;
     }

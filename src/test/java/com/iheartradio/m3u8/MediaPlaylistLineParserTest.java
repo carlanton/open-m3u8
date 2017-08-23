@@ -1,5 +1,6 @@
 package com.iheartradio.m3u8;
 
+import com.iheartradio.m3u8.data.ByteRange;
 import com.iheartradio.m3u8.data.EncryptionData;
 import com.iheartradio.m3u8.data.EncryptionMethod;
 import com.iheartradio.m3u8.data.MapInfo;
@@ -70,8 +71,8 @@ public class MediaPlaylistLineParserTest extends LineParserStateTestCase {
         final IExtTagParser handler = MediaPlaylistLineParser.EXT_X_MAP;
         final String tag = Constants.EXT_X_MAP;
         final String uri = "init.mp4";
-        final int subRangeLength = 350;
-        final int offset = 76;
+        final long subRangeLength = 350;
+        final Long offset = 76L;
 
         final String line = "#" + tag +
                 ":URI=\"" + uri + "\"" +
@@ -84,5 +85,21 @@ public class MediaPlaylistLineParserTest extends LineParserStateTestCase {
         assertNotNull(mapInfo.getByteRange());
         assertEquals(subRangeLength, mapInfo.getByteRange().getSubRangeLength());
         assertEquals(offset, mapInfo.getByteRange().getOffset());
+    }
+
+    @Test
+    public void testEXT_X_BYTERANGE() throws Exception {
+        final IExtTagParser handler = MediaPlaylistLineParser.EXT_X_BYTERANGE;
+        final String tag = Constants.EXT_X_BYTERANGE_TAG;
+        final long subRangeLength = 350;
+        final Long offset = 70L;
+
+        final String line = "#" + tag + ":" + subRangeLength + "@" + offset;
+
+        assertEquals(tag, handler.getTag());
+        handler.parse(line, mParseState);
+        ByteRange byteRange = mParseState.getMedia().byteRange;
+        assertEquals(subRangeLength, byteRange.getSubRangeLength());
+        assertEquals(offset, byteRange.getOffset());
     }
 }

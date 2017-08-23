@@ -80,6 +80,7 @@ final class Constants {
     public static final String KEY_FORMAT = "KEYFORMAT";
     public static final String KEY_FORMAT_VERSIONS = "KEYFORMATVERSIONS";
     public static final String EXT_X_MAP = "EXT-X-MAP";
+    public static final String EXT_X_BYTERANGE_TAG = "EXT-X-BYTERANGE";
 
     // regular expressions
     public static final String YES = "YES";
@@ -87,6 +88,7 @@ final class Constants {
     private static final String INTEGER_REGEX = "\\d+";
     private static final String SIGNED_FLOAT_REGEX = "-?\\d*\\.?\\d*";
     private static final String TIMESTAMP_REGEX = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?(?:Z?|\\+\\d{2}:\\d{2})?";
+    private static final String BYTERANGE_REGEX = "(" + INTEGER_REGEX + ")(?:@(" + INTEGER_REGEX + "))?";
 
     public static final Pattern HEXADECIMAL_PATTERN = Pattern.compile("^0[x|X]([0-9A-F]+)$");
     public static final Pattern RESOLUTION_PATTERN = Pattern.compile("^(" + INTEGER_REGEX + ")x(" + INTEGER_REGEX + ")$");
@@ -101,8 +103,8 @@ final class Constants {
     public static final Pattern EXT_X_ENDLIST_PATTERN = Pattern.compile("^#" + EXT_X_ENDLIST_TAG + "$");
     public static final Pattern EXT_X_I_FRAMES_ONLY_PATTERN = Pattern.compile("^#" + EXT_X_I_FRAMES_ONLY_TAG);
     public static final Pattern EXT_X_DISCONTINUITY_PATTERN = Pattern.compile("^#" + EXT_X_DISCONTINUITY_TAG + "$");
-
-    public static final Pattern EXT_X_BYTERANGE_VALUE_PATTERN = Pattern.compile("^(" + INTEGER_REGEX + ")(?:@(" + INTEGER_REGEX + "))?$");
+    public static final Pattern EXT_X_BYTERANGE_PATTERN = Pattern.compile("^#" + EXT_X_BYTERANGE_TAG + EXT_TAG_END + BYTERANGE_REGEX + "$");
+    public static final Pattern EXT_X_BYTERANGE_VALUE_PATTERN = Pattern.compile("^" + BYTERANGE_REGEX + "$");
 
     // other
 

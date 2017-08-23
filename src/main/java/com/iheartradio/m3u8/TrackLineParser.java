@@ -19,11 +19,13 @@ class TrackLineParser implements LineParser {
                 .withProgramDateTime(mediaState.programDateTime)
                 .withDiscontinuity(mediaState.hasDiscontinuity)
                 .withMapInfo(mediaState.mapInfo)
+                .withByteRange(mediaState.byteRange)
                 .build());
 
         mediaState.trackInfo = null;
         mediaState.programDateTime = null;
         mediaState.hasDiscontinuity = false;
         mediaState.mapInfo = null;
+        mediaState.byteRange = null;
     }
 }

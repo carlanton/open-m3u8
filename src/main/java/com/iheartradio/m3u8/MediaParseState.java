@@ -21,6 +21,7 @@ class MediaParseState implements PlaylistParseState<MediaPlaylist> {
     public boolean endOfList;
     public boolean hasDiscontinuity;
     public MapInfo mapInfo;
+    public ByteRange byteRange;
 
     @Override
     public PlaylistParseState<MediaPlaylist> setUnknownTags(final List<String> unknownTags) {

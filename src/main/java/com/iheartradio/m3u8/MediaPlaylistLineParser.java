@@ -417,9 +417,7 @@ class MediaPlaylistLineParser implements LineParser {
                         throw ParseException.create(ParseExceptionType.INVALID_BYTERANGE_FORMAT, getTag(), attribute.toString());
                     }
 
-                    int subRangeLength = Integer.parseInt(matcher.group(1));
-                    int offset = matcher.group(2) != null ? Integer.parseInt(matcher.group(2)) : 0;
-                    builder.withByteRange(new ByteRange(subRangeLength, offset));
+                    builder.withByteRange(ParseUtil.matchByteRange(matcher));
                 }
             });
         }
@@ -442,6 +440,27 @@ class MediaPlaylistLineParser implements LineParser {
 
             ParseUtil.parseAttributes(line, builder, state, HANDLERS, getTag());
             state.getMedia().mapInfo = builder.build();
+        }
+    };
+
+    static final IExtTagParser EXT_X_BYTERANGE = new IExtTagParser() {
+        private final LineParser lineParser = new MediaPlaylistLineParser(this);
+
+        @Override
+        public String getTag() {
+            return Constants.EXT_X_BYTERANGE_TAG;
+        }
+
+        @Override
+        public boolean hasData() {
+            return true;
+        }
+
+        @Override
+        public void parse(String line, ParseState state) throws ParseException {
+            lineParser.parse(line, state);
+            final Matcher matcher = ParseUtil.match(Constants.EXT_X_BYTERANGE_PATTERN, line, getTag());
+            state.getMedia().byteRange = ParseUtil.matchByteRange(matcher);
         }
     };
 }

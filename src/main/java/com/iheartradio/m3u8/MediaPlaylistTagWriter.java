@@ -199,6 +199,11 @@ abstract class MediaPlaylistTagWriter extends ExtTagWriter {
 
                     keyWriter.writeTrackData(tagWriter, playlist, trackData);
                     mapInfoWriter.writeTrackData(tagWriter, playlist, trackData);
+
+                    if (trackData.hasByteRange()) {
+                        writeByteRange(tagWriter, trackData.getByteRange());
+                    }
+
                     writeExtinf(tagWriter, playlist, trackData);
                     tagWriter.writeLine(trackData.getUri());
                 }
@@ -220,6 +225,19 @@ abstract class MediaPlaylistTagWriter extends ExtTagWriter {
         }
 
         tagWriter.writeTag(Constants.EXTINF_TAG, builder.toString());
+    }
+
+    private static void writeByteRange(TagWriter tagWriter, ByteRange byteRange) throws IOException {
+        String value;
+
+        if (byteRange.getOffset() != null) {
+            value = String.valueOf(byteRange.getSubRangeLength())
+                    + '@' + String.valueOf(byteRange.getOffset());
+        } else {
+            value = String.valueOf(byteRange.getSubRangeLength());
+        }
+
+        tagWriter.writeTag(Constants.EXT_X_BYTERANGE_TAG, value);
     }
 
     static class KeyWriter extends MediaPlaylistTagWriter {
@@ -340,17 +358,20 @@ abstract class MediaPlaylistTagWriter extends ExtTagWriter {
                 @Override
                 public String write(MapInfo attributes) throws ParseException {
                     ByteRange byteRange = attributes.getByteRange();
-                    if (byteRange.getOffset() > 0) {
-                        return WriteUtil.writeQuotedString(
-                                byteRange.getSubRangeLength() + "@" + byteRange.getOffset(), getTag());
+                    String value;
+                    if (byteRange.hasOffset()) {
+                        value = String.valueOf(byteRange.getSubRangeLength())
+                                + '@' + String.valueOf(byteRange.getOffset());
                     } else {
-                        return WriteUtil.writeQuotedString(String.valueOf(byteRange.getSubRangeLength()), getTag());
+                        value = String.valueOf(byteRange.getSubRangeLength());
                     }
+
+                    return WriteUtil.writeQuotedString(value, getTag());
                 }
 
                 @Override
-                public boolean containsAttribute(MapInfo attributes) {
-                    return attributes.getByteRange() != null;
+                public boolean containsAttribute(MapInfo mapInfo) {
+                    return mapInfo.hasByteRange();
                 }
             });
         }
